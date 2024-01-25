@@ -1,0 +1,10 @@
+<div *ngIf="selezione == 'Inserimento'">
+<h1>
+  {{Titolo}}
+</h1>
+Autore: <input required id = 'autore'><br><br>
+Titolo: <input required id = 'titolo'><br><br>
+Posizione: <input required id = 'posizione'><br><br>
+<button (click)="insert()" >Inserisci</button><br><br>
+<div id = "errore" ></div>
+</div>

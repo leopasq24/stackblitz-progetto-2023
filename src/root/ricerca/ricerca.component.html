@@ -1,0 +1,8 @@
+<div *ngIf="selezione == 'Ricerca'">
+  <h1>
+  {{Titolo}}
+  </h1>
+  <input id = "ricerca" (input) = 'ricerca()'><br>
+  <div id = "risposta"></div><br><br>
+</div>
+<app-documento [selezione]="selezione" [risultato]="risultato"></app-documento>
