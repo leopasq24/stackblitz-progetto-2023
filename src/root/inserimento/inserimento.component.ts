@@ -34,40 +34,44 @@ export class InserimentoComponent implements OnInit {
     var biblio: Archivio;
     var new_libro: Libro;
     var i: number = 0;
-    this.bs.getData().subscribe({
-      next: (res: AjaxResponse<any>) => {
-        const archivioData = JSON.parse(res.response);
-        biblio = new Archivio(archivioData.libri);
-        new_libro = new Libro(
-          autore.value,
-          titolo.value,
-          posizione.value,
-          undefined
-        );
-        biblio.libri.map((valore) => {
-          if (new_libro.posizione == valore.posizione) {
-            output.innerHTML = 'Posizione già occupata';
-            i++;
-          }
-        });
-        if (i == 0) {
-          biblio.libri.push(new_libro);
-          this.bs.setData(biblio).subscribe({
-            next: (res: AjaxResponse<any>) => {
-              output.innerHTML = 'Libro inserito!';
-            },
-            error: (err) => {
-              console.error('Observer got an error: ' + JSON.stringify(err));
-              output.innerHTML = "Errore nell'inserimento";
-            },
+    if (autore.value != '' || titolo.value != '' || posizione.value != '') {
+      this.bs.getData().subscribe({
+        next: (res: AjaxResponse<any>) => {
+          const archivioData = JSON.parse(res.response);
+          biblio = new Archivio(archivioData.libri);
+          new_libro = new Libro(
+            autore.value,
+            titolo.value,
+            posizione.value,
+            undefined
+          );
+          biblio.libri.map((valore) => {
+            if (new_libro.posizione == valore.posizione) {
+              output.innerHTML = 'Posizione già occupata';
+              i++;
+            }
           });
-        }
-      },
-      error: (err) => {
-        console.error('Observer got an error: ' + JSON.stringify(err));
-        output.innerHTML = 'Biblioteca non trovata';
-      },
-    });
+          if (i == 0) {
+            biblio.libri.push(new_libro);
+            this.bs.setData(biblio).subscribe({
+              next: (res: AjaxResponse<any>) => {
+                output.innerHTML = 'Libro inserito!';
+              },
+              error: (err) => {
+                console.error('Observer got an error: ' + JSON.stringify(err));
+                output.innerHTML = "Errore nell'inserimento";
+              },
+            });
+          }
+        },
+        error: (err) => {
+          console.error('Observer got an error: ' + JSON.stringify(err));
+          output.innerHTML = 'Biblioteca non trovata';
+        },
+      });
+    } else {
+      output.innerHTML = 'I campi non possono essere vuoti!';
+    }
   }
   constructor(private bs: ServizioBibliotecaService) {}
 
