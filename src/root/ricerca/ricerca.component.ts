@@ -18,9 +18,6 @@ export class RicercaComponent implements OnInit {
   Titolo: string = "Ricerca per titolo e autore";
   risultato : string | string[] = [];
 
-  return(){
-    this.selezione = undefined;
-  }
   
   ricerca(){
     var input : HTMLInputElement =  document.getElementById('ricerca') as HTMLInputElement;
